@@ -19,13 +19,12 @@ function getAllMessagesByDateDesc(PDO $connectDB): string|array
         ORDER BY `created_at` DESC
 ");
         // pas de résultats, on envoie un (string)
-        if($recup->rowCount()===0) return "Pas encore de message";
+        if ($recup->rowCount() === 0) return "Pas encore de message";
 
         // si on a au moins un résultat
         // on envoie un tableau indexé (array)
         return $recup->fetchAll();
-
-    }catch(Exception $e){
+    } catch (Exception $e) {
         die($e->getMessage());
     }
 }
@@ -40,9 +39,25 @@ VALUES (?,?,?);
 "
     );
     try {
-        $prepare->execute([$name,$email,$message]);
+        $prepare->execute([$name, $email, $message]);
         return true;
-    }catch (Exception $e){
+    } catch (Exception $e) {
         die($e->getMessage());
+    }
+}
+
+function creerArticles(PDO $db, $name, $email, $message)
+{
+    // Préparer la requête d'insertion
+    $req = $db->prepare('INSERT INTO messages (name, email, message) VALUES (?, ?, ?)');
+    try {
+
+        // Exécuter la requête avec des paramètres sécurisés
+
+        $req->execute([$name, $email, $message]);
+
+        return true;
+    } catch (PDOException $e) {
+        return 'Erreur lors de la création de l\'article : ' . $e->getMessage();
     }
 }

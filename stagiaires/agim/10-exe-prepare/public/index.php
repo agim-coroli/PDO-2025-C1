@@ -29,27 +29,9 @@ try{
 
 # ici notre code de traitement de la page
 
-// si on a envoyé le formulaire, isset permet de vérifier que
-// tous les champs nécessaires existent
-if(isset($_POST['name'],$_POST['email'],$_POST['message'])){
 
-    // création de variables locales
-    $name = strip_tags($_POST['name']); // on retire les tags
-    $name = htmlspecialchars($name,ENT_QUOTES);// on encode les caractères spéciaux
-    $name = trim($name); // efface les espaces avant et arrière
 
-    $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);// faut false si mail pas valide
 
-    $message = trim(htmlspecialchars(strip_tags($_POST['message']),ENT_QUOTES));
-
-    // on est ici
-
-    setArticle($db,$name,$email,$message);
-}
-
-// On va charger tous nos messages dans une variable à passer à la vue
-// un ou plusieurs messages : array, pas encore de message : string
-$messages = getAllMessagesByDateDesc($db);
 
 
 # chargement de la vue
